@@ -17,7 +17,7 @@ export default defineConfig({
     include: ['global'], // Ensure Vite includes the global polyfill
   },
   server: {
-    host:"172.30.6.12",
+    host:"172.30.6.14",
     port:"3008",
     build: {
       sourcemap: true, // Enable source maps
@@ -25,7 +25,7 @@ export default defineConfig({
     historyApiFallback: true, // <-- this is key
     proxy:{
       "/api":{
-        target:"http://172.30.6.12:3008",
+        target:"http://172.30.6.14:3008",
         changeOrigin: true
       }
     }

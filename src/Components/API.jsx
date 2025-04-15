@@ -9,6 +9,8 @@ const { Option } = Select;
 const { TextArea } = Input;
 const { Title } = Typography;
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function API() {
     const announcementMap = {
         "1englishmens.mp3": "686348",
@@ -58,7 +60,7 @@ export default function API() {
 //     };
 
 //     const resolvedAnnouncementId = announcementMap[announcementId];
-//     const baseUrl = "http://172.30.6.12:5008/api/proxy/voice-broadcast";
+//     const baseUrl = "${API_BASE_URL}/api/proxy/voice-broadcast";
 //     const query = `contactNumbers=${encodeURIComponent(contactNumbers)}&announcementId=${encodeURIComponent(resolvedAnnouncementId)}`;
 //     const finalUrl = `${baseUrl}?${query}`;
 
@@ -75,11 +77,16 @@ export default function API() {
 //     }, null, 2));
 //   };
 const handleGenerate = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const { plan, announcementId, contactNumbers } = formData;
-  
+    if (!plan) {
+      toast.error("Please select a Plan.");
+      return;
+    }
     if (plan === "Voice Call Logs") {
       const systemuniqueid = "2132563_4_3049-u24489"; // Can be made user input too
-      const reportUrl = `http://172.30.6.11:5011/api/proxy/voicebroadcast/report?systemuniqueid=${systemuniqueid}`;
+      const reportUrl = `http://172.16.32.125:5001/api/proxy/voicebroadcast/report?systemuniqueid=${systemuniqueid}`;
   
       const reportJson = {
         status: "success",
@@ -101,20 +108,26 @@ const handleGenerate = () => {
       };
   
       const php = `$systemuniqueid = urlencode("${systemuniqueid}");
-  $api = "http://172.30.6.11:5011/api/proxy/voicebroadcast/report?systemuniqueid=$systemuniqueid";`;
+  $api = "http://172.16.32.125:5001/api/proxy/voicebroadcast/report?systemuniqueid=$systemuniqueid";`;
   
       setApiUrl(reportUrl);
       setNote(`NOTE: Please do find the "systemuniqueid" from the Post request JSON body of voice call trigger.`);
       setPhpCode(php);
       setJsonBody(JSON.stringify(reportJson, null, 2));
       toast.success("API Details for Voice Call Logs generated successfully!");
-    } else {
-    //   const announcementMap = {
-    //     "kg1.mp3": "686026",
-    //   };
+    } else if (plan === "API-Trans-Ans-Static") {
+      if (!announcementId) {
+        toast.error("Please select an Audio File.");
+        return;
+      }
+ 
+      if (!contactNumbers.trim()) {
+        toast.error("Please enter at least one Contact Number.");
+        return;
+      }
   
       const resolvedAnnouncementId = announcementMap[announcementId];
-      const baseUrl = "http://172.30.6.12:5008/api/proxy/voice-broadcast";
+      const baseUrl = "http://172.16.32.125:5001/api/proxy/voice-broadcast";
       const query = `contactNumbers=${encodeURIComponent(contactNumbers)}&announcementId=${encodeURIComponent(resolvedAnnouncementId)}`;
       const finalUrl = `${baseUrl}?${query}`;
   
@@ -137,10 +150,12 @@ const handleGenerate = () => {
 
   // 🟢 Fetch logs from API
   useEffect(() => {
+    let interval;
     const fetchLogs = async () => {
+      
       try {
         setLoadingLogs(true);
-        const response = await fetch("http://172.30.6.12:5008/api/proxy/voicebroadcast/logs");
+        const response = await fetch(`${API_BASE_URL}/api/proxy/voicebroadcast/logs`);
         const data = await response.json();
         setLogs(data);
       } catch (err) {
@@ -152,6 +167,8 @@ const handleGenerate = () => {
     };
 
     fetchLogs();
+  interval = setInterval(fetchLogs, 10000);
+   return () => clearInterval(interval);
   }, []);
 
   // 🟢 Table columns
@@ -276,6 +293,7 @@ const handleGenerate = () => {
                             style={{ width: "100%" }}
                             value={formData.announcementId}
                             onChange={(value) => handleChange("announcementId", value)}
+                            
                         >
                             {Object.keys(announcementMap).map((file) => (
                                 <Option key={file} value={file}>
