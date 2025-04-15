@@ -1,0 +1,23 @@
+.sidebar-title {
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.ant-menu-item {
+  margin: 10px 12px;
+  border-radius: 12px !important;
+  transition: background 0.3s ease;
+}
+
+.ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.ant-menu-item-selected {
+  background: rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
+}

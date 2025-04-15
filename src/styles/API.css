@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'proximaNovaBold';
+    src: url('../fonts/proximanova_bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.voice-api-container {
+    padding: 24px;
+  }
+
+  .voice-call-api-image{
+    width: 40px;
+  }
+  
+  .voice-api-title {
+    font-size: 23px;
+    /* color: #1E90FF; */
+    color: #1368c9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'proximaNovaBold','sans-serif';
+  }
+  
+  /* Main Form Wrapper */
+  .voice-api-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Each Form Field Block */
+  .voice-api-form-item {
+    width: 100%;
+  }
+  
+  .voice-api-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+  }
+  
+  /* Input & Select Styling */
+  .voice-api-input {
+    width: 100%;
+    min-height: 38px;
+  }
+  
+  /* Button Styling */
+  .voice-api-button {
+    margin-top: 8px;
+    width: fit-content;
+  }
+  
+  /* Output Section */
+  .voice-api-output {
+    background: #f6f6f6;
+    padding: 12px;
+    border-radius: 6px;
+    white-space: break-spaces;
+    margin-bottom: 24px;
+    font-family: monospace;
+  }
+  
+  .voice-call-generate-api-button:focus{
+    display: none;
+  }
