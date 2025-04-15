@@ -17,15 +17,15 @@ export default defineConfig({
     include: ['global'], // Ensure Vite includes the global polyfill
   },
   server: {
-    host:"172.30.6.14",
-    port:"3008",
+    host:"172.16.32.125",
+    port:"3001",
     build: {
       sourcemap: true, // Enable source maps
     },
     historyApiFallback: true, // <-- this is key
     proxy:{
       "/api":{
-        target:"http://172.30.6.14:3008",
+        target:"http://172.16.32.125:3001",
         changeOrigin: true
       }
     }
