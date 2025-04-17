@@ -9,7 +9,7 @@ const NetworkStatusChecker = () => {
 
   const checkBackendConnection = async () => {
     try {
-      await axios.get(`http://172.30.6.14:5001/api/network-status`);
+      await axios.get(`http://172.16.32.125:5001/api/network-status`);
       setIsConnected(true);
     } catch (error) {
       setIsConnected(false);
