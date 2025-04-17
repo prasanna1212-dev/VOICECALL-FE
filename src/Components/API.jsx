@@ -384,7 +384,7 @@ const handleGenerate = () => {
                 columns={columns}
                 dataSource={logs}
                 rowKey="systemuniqueid"
-                pagination={{ pageSize: 8 }}
+                pagination={{ pageSize: 10 }}
                 loading={loadingLogs}
                 size="middle"
               />              
