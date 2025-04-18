@@ -44,6 +44,25 @@ export default function API() {
   const [note, setNote] = useState("");
   const [logs, setLogs] = useState([]);
   const [loadingLogs, setLoadingLogs] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [filteredStatus, setFilteredStatus] = useState(null);
+  const [pageSize, setPageSize] = useState(16);
+
+  const getFilteredLogs = () => {
+    return logs.filter((log) => {
+      // Filter by "report" field now instead of "status"
+      const reportMatch = filteredStatus ? log.report === filteredStatus : true;
+ 
+      // Filter by search text across all fields
+      const searchMatch = searchText
+        ? Object.values(log).some((value) =>
+            String(value).toLowerCase().includes(searchText.toLowerCase())
+          )
+        : true;
+ 
+      return reportMatch && searchMatch;
+    });
+  };
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({
@@ -378,13 +397,51 @@ const handleGenerate = () => {
               background: "#fff",
               overflowY: "auto"
             }}>
-              <Title level={5}>Logs</Title>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <Space>
+                  <Input.Search
+                    placeholder="Search for info..."
+                    allowClear
+                    onChange={(e) => setSearchText(e.target.value)}
+                    style={{ width: 200 }}
+                  />
+                  <Select
+                    allowClear
+                    placeholder="Filter by Status"
+                    style={{ width: 160 }}
+                    onChange={(value) => setFilteredStatus(value)}
+                  >
+                    <Option value="Dialed">Dialed</Option>
+                    <Option value="Failed">Failed</Option>
+                    <Option value="Answered">Answered</Option>
+                    <Option value="No Answer">No Answer</Option>
+                    <Option value="Busy">Busy</Option>
+                  </Select>
+                </Space>
+                <div>
+                  <span style={{ marginRight: 8 }}>
+                    Showing 1–{Math.min(pageSize, getFilteredLogs().length)} of {getFilteredLogs().length} results
+                  </span>
+                  <Select
+                    defaultValue={10}
+                    style={{ width: 100 }}
+                    onChange={(value) => setPageSize(value)}
+                  >
+                    <Option value={10}>10 / page</Option>
+                    <Option value={25}>25 / page</Option>
+                    <Option value={50}>50 / page</Option>
+                    <Option value={100}>100 / page</Option>
+                  </Select>
+                </div>
+              </div>
               {logs.length > 0 ? (
                 <Table
                 columns={columns}
-                dataSource={logs}
+                dataSource={getFilteredLogs()}
                 rowKey="systemuniqueid"
-                pagination={{ pageSize: 10 }}
+                pagination={{ pageSize,
+                  showSizeChanger: false
+                 }}
                 loading={loadingLogs}
                 size="middle"
               />              
