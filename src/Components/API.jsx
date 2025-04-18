@@ -298,6 +298,7 @@ const handleGenerate = () => {
                     style={{ width: "100%" }}
                     onChange={(value) => handleChange("plan", value)}
                     value={formData.plan}
+                    allowClear
                     >
                     <Option value="API-Trans-Ans-Static">Voice Call Trigger</Option>
                     <Option value="Voice Call Logs">Voice Call Logs</Option>
@@ -312,6 +313,7 @@ const handleGenerate = () => {
                             style={{ width: "100%" }}
                             value={formData.announcementId}
                             onChange={(value) => handleChange("announcementId", value)}
+                            allowClear
                             
                         >
                             {Object.keys(announcementMap).map((file) => (
@@ -330,6 +332,7 @@ const handleGenerate = () => {
                             value={formData.contactNumbers}
                             onChange={(e) => handleChange("contactNumbers", e.target.value)}
                             placeholder="Comma (,) separated"
+                            allowClear
                         />
                         </div>
                     </>
