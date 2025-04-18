@@ -46,7 +46,7 @@ export default function API() {
   const [loadingLogs, setLoadingLogs] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [filteredStatus, setFilteredStatus] = useState(null);
-  const [pageSize, setPageSize] = useState(16);
+  const [pageSize, setPageSize] = useState(10);
 
   const getFilteredLogs = () => {
     return logs.filter((log) => {
