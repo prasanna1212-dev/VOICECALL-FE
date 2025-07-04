@@ -48,6 +48,25 @@
     font-style: normal;
   }
 
+   @font-face {
+    font-family: 'Conquer';
+    src: url('../fonts/Conquer.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'digital';
+    src: url('../fonts/digital.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CinzelDecorative';
+    src: url('../fonts/CinzelDecorative-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   @font-face {
     font-family: 'TimesNewNormal';
     src: url('../fonts/Times\ New\ Normal\ Regular.ttf') format('truetype');
@@ -58,6 +77,13 @@
   @font-face {
     font-family: 'proximaNova-regular';
     src: url('../fonts/proximanova_regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'PantonDemo-Black';
+    src: url('../fonts/PantonDemo-Black.otf') format('trutype');
     font-weight: normal;
     font-style: normal;
   }
