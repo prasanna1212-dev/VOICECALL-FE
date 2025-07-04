@@ -267,14 +267,22 @@ const handleGenerate = () => {
     <div style={{ height: "100vh", display: "flex", flexDirection: "column", width: "100vw" }}>
         <Toaster position="top-center" reverseOrder={false} />
       {/* Top Bar */}
-      <div style={{
-        background: "#002B5B",
-        padding: "10px 20px",
-        display: "flex",
-        alignItems: "center",
-      }}>
-        <img src={KgislLogo} alt="KGiSL Logo" style={{ height: 36 }} />
-      </div>
+      {/* Top Bar with Dashboard Button */}
+    <div style={{
+      background: "#002B5B",
+      padding: "10px 30px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    }}>
+      <img src={KgislLogo} alt="KGiSL Logo" style={{ height: 36 }} />
+      <button
+        onClick={() => window.location.href = "/dashboard"}
+        className="dashboard-button"
+      >
+        View Dashboard
+      </button>
+    </div>
 
       {/* Content Area */}
       <div style={{ flex: 1, padding: 24 }}>
