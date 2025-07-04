@@ -421,14 +421,14 @@ const gradientLineOptions = {
           >
             Refresh
           </Button>
-          {/* <Button
+          <Button
             type="default"
             icon={<FiClock />}
             onClick={() => setIsModalVisible(true)}
             style={{ fontWeight: "600" }}
           >
             Mail Scheduling
-          </Button> */}
+          </Button> 
         </div>
       </div>
     <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
