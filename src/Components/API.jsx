@@ -208,12 +208,6 @@ const handleGenerate = () => {
       key: "contact_number",
     },
     {
-      title: "Name", // ✅ New column
-      dataIndex: "name",
-      key: "name",
-      render: (value) => value === "Not Found" || !value ? "-" : value,
-    },
-    {
       title: "Status",
       dataIndex: "status",
       key: "status",
