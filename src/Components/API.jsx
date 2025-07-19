@@ -46,7 +46,8 @@ export default function API() {
   const [loadingLogs, setLoadingLogs] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [filteredStatus, setFilteredStatus] = useState(null);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(15);
+  
 
   const getFilteredLogs = () => {
     return logs.filter((log) => {
@@ -169,11 +170,9 @@ const handleGenerate = () => {
 
   // 🟢 Fetch logs from API
   useEffect(() => {
-    let interval;
-    const fetchLogs = async () => {
-      
+    const fetchLogs = async (showLoader = false) => {
       try {
-        setLoadingLogs(true);
+        if (showLoader) setLoadingLogs(true);
         const response = await fetch(`${API_BASE_URL}/api/proxy/voicebroadcast/logs`);
         const data = await response.json();
         setLogs(data);
@@ -181,13 +180,19 @@ const handleGenerate = () => {
         console.error("Failed to fetch logs", err);
         message.error("Failed to load logs");
       } finally {
-        setLoadingLogs(false);
+        if (showLoader) setLoadingLogs(false);
       }
     };
-
-    fetchLogs();
-  interval = setInterval(fetchLogs, 10000);
-   return () => clearInterval(interval);
+  
+    // First load with loader
+    fetchLogs(true);
+  
+    // Background refresh without loader
+    const interval = setInterval(() => {
+      fetchLogs(false);
+    }, 10000);
+  
+    return () => clearInterval(interval);
   }, []);
 
   // 🟢 Table columns
@@ -201,6 +206,12 @@ const handleGenerate = () => {
       title: "Contact Number",
       dataIndex: "contact_number",
       key: "contact_number",
+    },
+    {
+      title: "Name", // ✅ New column
+      dataIndex: "name",
+      key: "name",
+      render: (value) => value === "Not Found" || !value ? "-" : value,
     },
     {
       title: "Status",
@@ -288,7 +299,7 @@ const handleGenerate = () => {
       <div style={{ flex: 1, padding: 24 }}>
         <Row gutter={24} style={{ height: "100%" }}>
           {/* Left Content */}
-          <Col span={12}>
+          <Col span={8}>
             <div style={{ background: "#fff", borderRadius: 8, height: "100%" }}>
               {/* Header */}
               <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
@@ -399,7 +410,7 @@ const handleGenerate = () => {
           </Col>
 
           {/* Right Content - Logs */}
-          <Col span={12}>
+          <Col span={16}>
             <div style={{
               height: "100%",
               padding: 24,
@@ -434,11 +445,11 @@ const handleGenerate = () => {
                     Showing 1–{Math.min(pageSize, getFilteredLogs().length)} of {getFilteredLogs().length} results
                   </span>
                   <Select
-                    defaultValue={10}
+                    defaultValue={15}
                     style={{ width: 100 }}
                     onChange={(value) => setPageSize(value)}
                   >
-                    <Option value={10}>10 / page</Option>
+                    <Option value={15}>15 / page</Option>
                     <Option value={25}>25 / page</Option>
                     <Option value={50}>50 / page</Option>
                     <Option value={100}>100 / page</Option>
@@ -453,7 +464,6 @@ const handleGenerate = () => {
                 pagination={{ pageSize,
                   showSizeChanger: false
                  }}
-                loading={loadingLogs}
                 size="middle"
               />              
               ) : (
