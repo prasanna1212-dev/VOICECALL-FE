@@ -455,14 +455,14 @@ const gradientLineOptions = {
           >
             Mail Scheduling
           </Button> 
-          <Button
+          {/*<Button
             type="default"
             icon={<FiDownload />}
             onClick={handleDownloadReport}
             style={{ fontWeight: "600" }}
           >
             Download Report
-          </Button>
+          </Button>*/}
         </div>
       </div>
     <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
