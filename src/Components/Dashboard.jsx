@@ -5,6 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearSca
 import { FiPhoneCall, FiArrowLeft, FiRefreshCcw, FiClock } from "react-icons/fi";
 import { HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi";
 import { BiTimeFive } from "react-icons/bi";
+import { FiDownload } from "react-icons/fi"; 
 import "../styles/Dashboard.css";
 import ReactApexChart from "react-apexcharts";
 import dayjs from "dayjs";
@@ -133,6 +134,31 @@ const handleSaveSchedule = async () => {
     setSavingSchedule(false);
   }
 };
+
+const handleDownloadReport = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/proxy/voicebroadcast/report-overall`);
+      const data = await response.json();
+  
+      if (data.status === "success" && data.url) {
+        const fileResponse = await fetch(data.url);
+        const blob = await fileResponse.blob();
+  
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = "Voice_Log_Report_Overall.pdf"; // force file name
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl); // cleanup
+      } else {
+        console.error("Failed to fetch report URL");
+      }
+    } catch (error) {
+      console.error("Error downloading report:", error);
+    }
+  };
 
   // Days of week options for weekly schedule
   const daysOfWeek = [
@@ -429,6 +455,14 @@ const gradientLineOptions = {
           >
             Mail Scheduling
           </Button> 
+          <Button
+            type="default"
+            icon={<FiDownload />}
+            onClick={handleDownloadReport}
+            style={{ fontWeight: "600" }}
+          >
+            Download Report
+          </Button>
         </div>
       </div>
     <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
